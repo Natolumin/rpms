@@ -13,6 +13,7 @@ Source2:       inspircd.logrotate
 
 BuildRequires: make, tar, gcc-c++
 BuildRequires: perl
+BuildRequires: perl(Getopt::Long)
 # For default modules
 BuildRequires: gnutls-devel, openssl-devel
 Requires:      perl
