@@ -1,0 +1,22 @@
+[Unit]
+Description=InspIRCd - IRC Server
+After=network.target
+
+[Service]
+User=inspircd
+Type=forking
+Restart=on-failure
+SuccessExitStatus=15
+PIDFile=/run/inspircd/inspircd.pid
+RuntimeDirectory=inspircd
+WorkingDirectory=/run/inspircd/
+
+ExecStart=/usr/sbin/inspircd --config=/etc/inspircd/inspircd.conf
+ExecReload=/bin/kill -HUP $MAINPID
+
+# Terminating is quite long :
+TimeoutStopSec=30s
+
+[Install]
+WantedBy=multi-user.target
+

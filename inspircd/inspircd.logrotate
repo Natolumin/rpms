@@ -1,0 +1,11 @@
+/var/log/inspircd/*.log {
+    notifempty
+    compress
+    delaycompress
+    missingok
+    copytruncate
+    dateext
+    su inspircd inspircd
+    weekly
+    rotate 12
+}
