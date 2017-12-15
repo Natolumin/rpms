@@ -11,7 +11,7 @@ Source1:       mumudvb@.service
 # We could add CAM support, but we would need to package dvb-apps, and it's kinda unmaintained
 #BuildRequires: libucsi.so()(64bit) libdvben50221.so()(64bit) linuxtv-dvb-apps-devel
 #Requires:      libucsi.so()(64bit) libdvben50221.so()(64bit)
-BuildRequires: asciidoc gettext-devel autoconf
+BuildRequires: asciidoc gettext-devel autoconf automake
 
 %description
 
