@@ -1,0 +1,34 @@
+module ulogd_socket 1.0;
+
+require {
+	type ulogd_t;
+	class netlink_netfilter_socket create_netlink_socket_perms;
+}
+
+allow ulogd_t self:netlink_netfilter_socket create_netlink_socket_perms;
+
+gen_bool(ulogd_can_network,false);
+
+if (ulogd_can_network) {
+    require {
+        type netif_type;
+        type node_type;
+        type port_type;
+
+        class udp_socket create_socket_perms;
+        class tcp_socket create_stream_socket_perms;
+        class netif { tcp_send udp_send tcp_recv udp_recv };
+        class node { tcp_send udp_send tcp_recv udp_recv };
+        class udp_socket { send_msg recv_msg node_bind };
+        class tcp_socket { send_msg recv_msg node_bind };
+    }
+
+    allow ulogd_t self:udp_socket create_socket_perms;
+    allow ulogd_t self:tcp_socket create_stream_socket_perms;
+    allow ulogd_t netif_type:netif { tcp_send udp_send };
+    allow ulogd_t netif_type:netif { tcp_recv udp_recv };
+    allow ulogd_t node_type:node { tcp_send udp_send };
+    allow ulogd_t node_type:node { tcp_recv udp_recv };
+    allow ulogd_t port_type:{ tcp_socket udp_socket } { send_msg recv_msg };
+    allow ulogd_t node_type: { tcp_socket udp_socket } node_bind;
+}

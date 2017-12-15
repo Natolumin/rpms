@@ -1,0 +1,11 @@
+[Unit]
+Description=A userspace logging daemon for netfilter/iptables related logging
+Before=iptables.service ip6tables.service ebtables.service nftables.service
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/ulogd
+ExecReload=/bin/kill -USR1 $MAINPID
+
+[Install]
+WantedBy=network.target

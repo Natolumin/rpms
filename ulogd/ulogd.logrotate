@@ -1,0 +1,12 @@
+/var/log/ulogd/*.log {
+    sharedscripts
+    missingok
+    notifempty
+    compress
+    delaycompress
+    daily
+    rotate 7
+    postrotate
+        [ -f /run/ulogd/ulogd.pid ] && /bin/kill -HUP $(cat /run/ulogd/ulogd.pid)
+    endscript
+}
