@@ -1,0 +1,14 @@
+[Unit]
+Description=IRC Services Daemon
+After=network-online.target
+
+[Service]
+User=anope
+Type=forking
+RuntimeDirectory=anope
+PIDFile=/run/anope/services.pid
+ExecStart=/usr/bin/anope --confdir=/etc/anope --dbdir=/var/lib/anope --logdir=/var/log/anope --modulesdir=/usr/lib64/anope --localedir=/usr/share/locale
+ExecReload=/usr/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
