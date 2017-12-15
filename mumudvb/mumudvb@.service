@@ -1,0 +1,15 @@
+[Unit]
+Name=mumudvb
+Description=A TV streamer
+
+[Service]
+EnvironmentFile=/etc/sysconfig/mumudvb
+User=mumudvb
+Group=mumudvb
+RuntimeDirectory=mumudvb
+WorkingDirectory=/run/mumudvb
+ExecStart=/usr/bin/mumudvb $DAEMON_OPTS --card %i --config $MUMUDVB_CONF_%i
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
