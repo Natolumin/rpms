@@ -1,12 +1,14 @@
 Name:          mumudvb
 Version:       2.1.0
-Release:       5%{?dist}
+Release:       6%{?dist}
 Summary:       A dvb multicast streamer
 
 License:       GPLv2
 URL:           http://www.mumudvb.net
 Source0:       https://github.com/braice/MuMuDVB/archive/%{version}.zip
 Source1:       mumudvb@.service
+
+Patch0:        Fix-compiling-with-kernels-4.14.patch
 
 # We could add CAM support, but we would need to package dvb-apps, and it's kinda unmaintained
 #BuildRequires: libucsi.so()(64bit) libdvben50221.so()(64bit) linuxtv-dvb-apps-devel
@@ -17,7 +19,7 @@ BuildRequires: asciidoc gettext-devel autoconf automake
 
 
 %prep
-%setup -q -n MuMuDVB-%{version}
+%autosetup -n MuMuDVB-%{version} -p1
 
 %pre
 getent group mumudvb >/dev/null || groupadd -r mumudvb
@@ -50,6 +52,8 @@ install -t %{buildroot}%{_docdir}/%{name}/ doc/html/*
 %doc %{_docdir}/%{name}
 
 %changelog
+* Fri Dec 15 2017 Anatole Denis <natolumin@rezel.net> - 2.1.0-6
+- Fix building with kernels 4.14+
 * Thu Mar 16 2017 Anatole Denis <natolumin@rezel.net> - 2.1.0-5
 - Setup RuntimeDirectory in the service file
 * Mon Mar 13 2017 Anatole Denis <natolumin@rezel.net> - 2.1.0-4
