@@ -1,0 +1,26 @@
+From 04a5c22dd53bffff719576428b25195ee85f5dcc Mon Sep 17 00:00:00 2001
+From: Anatole Denis <natolumin@rezel.net>
+Date: Sat, 16 Dec 2017 10:29:25 +0000
+Subject: [PATCH] Remove forced openssl version requirement
+
+It builds cleanly with openssl 1.1 as far as I can see
+---
+ m4macros/ax_crypto.m4 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/m4macros/ax_crypto.m4 b/m4macros/ax_crypto.m4
+index dd4a81fa4..04dd2c80c 100644
+--- a/m4macros/ax_crypto.m4
++++ b/m4macros/ax_crypto.m4
+@@ -284,7 +284,7 @@ then
+ else
+    CRYPTO_NAME="OpenSSL"
+    DISABLED_CRYPTO="Botan"
+-   CRYPTO_PACKAGE="openssl-1.0.2"
++   CRYPTO_PACKAGE="openssl"
+    AC_DEFINE_UNQUOTED([WITH_OPENSSL], [], [Compile with OpenSSL crypto])
+    AC_MSG_CHECKING(for OpenSSL library)
+    # from bind9
+-- 
+2.15.1
+

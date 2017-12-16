@@ -3,13 +3,14 @@
 Summary:  DHCPv4, DHCPv6 and DDNS server from ISC
 Name:     kea
 Version:  1.3.0
-Release:  2%{?dist}
+Release:  3%{?dist}
 License:  MPLv2.0 and Boost
 URL:      https://kea.isc.org
 Source0:  https://ftp.isc.org/isc/kea/%{VERSION}/kea-%{VERSION}.tar.gz
 
 # slightly realigned version of https://github.com/isc-projects/kea-contrib/blob/master/systemd/0001-Systemd-service-unit-files.patch
 Patch0: 0001-Systemd-service-unit-files.patch
+Patch1: Remove-forced-openssl-version-requirement.patch
 
 # autoreconf
 BuildRequires: autoconf automake libtool
@@ -67,9 +68,7 @@ Requires: boost-devel
 Header files and API documentation.
 
 %prep
-%setup -q -n kea-%{VERSION}
-
-%patch0 -p1 -b .systemd
+%autosetup -n kea-%{VERSION} -p1
 
 # install leases db in /var/lib/kea/ not /var/kea/
 # http://kea.isc.org/ticket/3523
@@ -236,6 +235,9 @@ EOF
 %{_libdir}/pkgconfig/dns++.pc
 
 %changelog
+* Sat Dec 16 2017 Anatole denis <natolumin@rezel.net> - 1.3.0-3
+- Add patch to fix pkg-config dependency of the srpm on fedora with openssl 1.1
+
 * Fri Oct 27 2017 Anatole Denis <natolumin@rezel.net> - 1.3.0-1
 - 1.3.0
 
