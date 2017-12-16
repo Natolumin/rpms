@@ -14,6 +14,7 @@ Patch0:        Fix-compiling-with-kernels-4.14.patch
 #BuildRequires: libucsi.so()(64bit) libdvben50221.so()(64bit) linuxtv-dvb-apps-devel
 #Requires:      libucsi.so()(64bit) libdvben50221.so()(64bit)
 BuildRequires: asciidoc gettext-devel autoconf automake
+BuildRequires: systemd
 
 %description
 
