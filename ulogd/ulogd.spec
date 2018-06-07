@@ -1,11 +1,11 @@
 Name:           ulogd
-Version:        2.0.5
-Release:        5%{?dist}
+Version:        2.0.7
+Release:        1%{?dist}
 Summary:        Netfilter userspace logging daemon
 
 License:        GPLv2
 URL:            https://www.netfilter.org/projects/ulogd/
-Source0:        https://www.de.netfilter.org/projects/ulogd/files/ulogd-2.0.5.tar.bz2
+Source0:        https://www.netfilter.org/projects/ulogd/files/ulogd-%{version}.tar.bz2
 
 Source10:       ulogd.service
 Source11:       ulogd.logrotate
@@ -158,7 +158,9 @@ fi
 %{_libdir}/ulogd/ulogd_output_JSON.so
 
 %changelog
-* Sat Apr 15 2017 Anatole Denis <natoulmin@rezel.net> - 2.0.5-5
+* Fri Apr 27 2018 Anatole Denis <natolumin@rezel.net> - 2.0.7-1
+- Version bump to 2.0.7
+* Sat Apr 15 2017 Anatole Denis <natolumin@rezel.net> - 2.0.5-5
 - Add additional SELinux policy module for recent kernels
 * Sat Mar 11 2017 Anatole Denis <natolumin@rezel.net> - 2.0.5-4
 - Use Type=simple service (SELinux prevents writing pidfile)
