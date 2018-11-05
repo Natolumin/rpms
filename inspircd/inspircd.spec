@@ -1,6 +1,6 @@
 Name:          inspircd
 Version:       2.0.26
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       A modular Internet Relay Chat server written in C++
 
 Group:         Applications/Communications
@@ -9,6 +9,7 @@ URL:           http://www.inspircd.org/
 Source0:       https://github.com/inspircd/inspircd/archive/v%{version}.tar.gz
 Source1:       inspircd.service
 Source2:       inspircd.logrotate
+Source10:      inspircd_config_local.h
 
 
 BuildRequires: make, tar, gcc-c++
@@ -69,6 +70,9 @@ exit 0
     --binary-dir=%{_sbindir} \
     --uid %{name}
 
+# hacky hack to add custom compile options
+cat %{SOURCE10} >>include/inspircd_config.h
+
 make %{?_smp_mflags}
 
 
@@ -115,6 +119,9 @@ mkdir -p %{buildroot}%{_localstatedir}/log/%{name}/
 %{_libdir}/%{name}/modules/m_ssl_openssl.so
 
 %changelog
+* Tue Nov 06 2018 Anatole Denis <natolumin@rezel.net> - 2.0.26-2
+- Add compile-time options to enable SHA256 for gnutls and ECDHE for openssl
+
 * Sun May 13 2018 Anatole Denis <natolumin@rezel.net> - 2.0.26-1
 - Version bump
 
