@@ -1,6 +1,6 @@
 Name:          inspircd
-Version:       2.0.26
-Release:       2%{?dist}
+Version:       2.0.27
+Release:       1%{?dist}
 Summary:       A modular Internet Relay Chat server written in C++
 
 Group:         Applications/Communications
@@ -119,6 +119,9 @@ mkdir -p %{buildroot}%{_localstatedir}/log/%{name}/
 %{_libdir}/%{name}/modules/m_ssl_openssl.so
 
 %changelog
+* Sat Dec 29 2018 Anatole Denis <natolumin@rezel.net> - 2.0.27-1
+- Version bump
+
 * Tue Nov 06 2018 Anatole Denis <natolumin@rezel.net> - 2.0.26-2
 - Add compile-time options to enable SHA256 for gnutls and ECDHE for openssl
 
