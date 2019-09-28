@@ -15,6 +15,12 @@ Source10:      inspircd_config_local.h
 BuildRequires: make, tar, gcc-c++
 BuildRequires: perl
 BuildRequires: perl(Getopt::Long)
+%if 0%{?fedora} > 30
+BuildRequires: systemd-rpm-macros
+%else
+BuildRequires: systemd
+%endif
+
 # For default modules
 BuildRequires: gnutls-devel, openssl-devel
 Requires:      perl
