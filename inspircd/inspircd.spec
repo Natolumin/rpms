@@ -1,5 +1,5 @@
 Name:          inspircd
-Version:       2.0.29
+Version:       3.2.0
 Release:       1%{?dist}
 Summary:       A modular Internet Relay Chat server written in C++
 
@@ -9,8 +9,6 @@ URL:           http://www.inspircd.org/
 Source0:       https://github.com/inspircd/inspircd/archive/v%{version}.tar.gz
 Source1:       inspircd.service
 Source2:       inspircd.logrotate
-Source10:      inspircd_config_local.h
-
 
 BuildRequires: make, tar, gcc-c++
 BuildRequires: perl
@@ -23,7 +21,6 @@ BuildRequires: systemd
 
 # For default modules
 BuildRequires: gnutls-devel, openssl-devel
-Requires:      perl
 Requires:      systemd
 
 %package ssl-gnutls
@@ -60,32 +57,34 @@ useradd -r -g %{name} -d %{_libdir}/%{name}/ -s /sbin/nologin -c \
 exit 0
 
 %prep
-%setup -q
+%autosetup -n inspircd-%{version}
 
 
 %build
-%configure --disable-interactive \
+# Enable extra modules
+./configure --enable-extras=m_ssl_gnutls.cpp,m_ssl_openssl.cpp,m_sslrehashsignal.cpp,m_regex_posix.cpp,m_regex_stdlib.cpp
+./configure --disable-interactive \
+    --disable-auto-extras \
+    --distribution-label %{dist} \
     --system \
-    --enable-gnutls \
-    --enable-openssl \
     --prefix=%{_libdir}/%{name} \
     --config-dir=%{_sysconfdir}/%{name} \
     --module-dir=%{_libdir}/%{name}/modules \
     --log-dir=%{_localstatedir}/log/%{name} \
     --data-dir=%{_localstatedir}/run/%{name} \
     --binary-dir=%{_sbindir} \
-    --uid %{name}
+    --example-dir=%{_docdir}/%{name}-%{version}/examples \
+    --uid %{name} \
+    --gid %{name} \
 
-# hacky hack to add custom compile options
-cat %{SOURCE10} >>include/inspircd_config.h
-
-make %{?_smp_mflags}
+INSPIRCD_DISABLE_RPATH=1 make %{?_smp_mflags}
 
 
 %install
 %make_install
-rm -f %{buildroot}%{_libdir}/%{name}/.gdbargs
-rm -f %{buildroot}%{_libdir}/%{name}/inspircd
+
+rm -f %{buildroot}%{_sbindir}/inspircd-genssl
+rm -f %{buildroot}%{_datadir}/inspircd/.gdbargs
 
 # systemd service
 install -pD -m0644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
@@ -93,6 +92,7 @@ install -pD -m0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # Log,PID directory
 mkdir -p %{buildroot}%{_localstatedir}/log/%{name}/
+
 
 %post
 %systemd_post %{name}.service
@@ -104,25 +104,28 @@ mkdir -p %{buildroot}%{_localstatedir}/log/%{name}/
 %systemd_postun %{name}.service
 
 %files
-%doc %{_sysconfdir}/%{name}/examples/*
-%config %{_sysconfdir}/logrotate.d/%{name}
-
-%{_libdir}/%{name}/modules/*.so
-# Exclude modules with external deps to their own package
-%exclude %{_libdir}/%{name}/modules/m_ssl_*.so
+%doc %{_docdir}/%{name}-%{version}/examples
+%doc README.md
+%doc %{_mandir}/man1/*
+# Original perlscript wrapper and service file
+%doc %{_datadir}/inspircd
 # Capabilities for the executable
 %attr(754, %{name}, %{name}) %caps(CAP_NET_BIND_SERVICE=ep) %{_sbindir}/%{name}
 
+%config %{_sysconfdir}/logrotate.d/%{name}
 
 %{_unitdir}/%{name}.service
 
-%doc docs README.md
 %dir %attr(775, %{name}, %{name}) %{_localstatedir}/log/%{name}
 
+# Modules, but exclude modules with external deps to their own package
+%attr (755, %{name}, %{name}) %{_libdir}/%{name}/modules/*.so
+%exclude %{_libdir}/%{name}/modules/m_ssl_*.so
+
 %files ssl-gnutls
-%{_libdir}/%{name}/modules/m_ssl_gnutls.so
+%attr (755, %{name}, %{name}) %{_libdir}/%{name}/modules/m_ssl_gnutls.so
 %files ssl-openssl
-%{_libdir}/%{name}/modules/m_ssl_openssl.so
+%attr (755, %{name}, %{name}) %{_libdir}/%{name}/modules/m_ssl_openssl.so
 
 %changelog
 * Sat Apr 25 2020 Anatole Denis <natolumin@rezel.net> - 2.0.29-1
@@ -130,6 +133,9 @@ mkdir -p %{buildroot}%{_localstatedir}/log/%{name}/
 
 * Sat Sep 28 2019 Anatole Denis <natolumin@rezel.net> - 2.0.28-1
 - Version bump
+
+* Wed Jul 24 2019 Anatole Denis <natolumin@rezel.net> - 3.2.0-1
+- Major version changes
 
 * Sat Dec 29 2018 Anatole Denis <natolumin@rezel.net> - 2.0.27-1
 - Version bump
