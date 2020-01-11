@@ -1,5 +1,5 @@
 Name:		anope
-Version:	2.0.6
+Version:	2.0.7
 Release:	1%{?dist}
 Summary:	Anope is a set of IRC Services designed for flexibility and ease of use
 
@@ -144,6 +144,9 @@ getent passwd anope >/dev/null || \
 %systemd_post anope.service
 
 %changelog
+* Sat Jan 11 2020 Anatole Denis <natolumin@rezel.net> - 2.0.7-1
+- Version bump
+
 * Wed Dec 13 2017 Anatole Denis <natolumin@rezel.net> - 2.0.6-1
 - Version bump to 2.0.6
 
