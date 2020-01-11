@@ -1,6 +1,6 @@
 Name:		anope
 Version:	2.0.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Anope is a set of IRC Services designed for flexibility and ease of use
 
 License:	GPLv2
@@ -10,6 +10,7 @@ Source0:	https://github.com/anope/anope/releases/download/%{version}/%{name}-%{v
 Source10:	anope.service
 
 BuildRequires:	cmake >= 2.4
+BuildRequires:	gcc-c++
 BuildRequires:	openssl-devel, gnutls-devel
 BuildRequires:	openldap-devel
 BuildRequires:	mariadb-devel, sqlite-devel
