@@ -1,5 +1,5 @@
 Name:          inspircd
-Version:       2.0.28
+Version:       2.0.29
 Release:       1%{?dist}
 Summary:       A modular Internet Relay Chat server written in C++
 
@@ -125,6 +125,9 @@ mkdir -p %{buildroot}%{_localstatedir}/log/%{name}/
 %{_libdir}/%{name}/modules/m_ssl_openssl.so
 
 %changelog
+* Sat Apr 25 2020 Anatole Denis <natolumin@rezel.net> - 2.0.29-1
+- Version bump
+
 * Sat Sep 28 2019 Anatole Denis <natolumin@rezel.net> - 2.0.28-1
 - Version bump
 
