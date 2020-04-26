@@ -1,5 +1,5 @@
 Name:          inspircd
-Version:       3.2.0
+Version:       3.6.0
 Release:       1%{?dist}
 Summary:       A modular Internet Relay Chat server written in C++
 
@@ -74,8 +74,8 @@ exit 0
     --data-dir=%{_localstatedir}/run/%{name} \
     --binary-dir=%{_sbindir} \
     --example-dir=%{_docdir}/%{name}-%{version}/examples \
-    --uid %{name} \
-    --gid %{name} \
+    --uid $(id -u) \
+    --gid $(id -g) \
 
 INSPIRCD_DISABLE_RPATH=1 make %{?_smp_mflags}
 
@@ -128,6 +128,9 @@ mkdir -p %{buildroot}%{_localstatedir}/log/%{name}/
 %attr (755, %{name}, %{name}) %{_libdir}/%{name}/modules/m_ssl_openssl.so
 
 %changelog
+* Sun Apr 26 2020 Anatole denis <natolumin@rezel.net> - 3.6.0-1
+- Version bump
+
 * Sat Apr 25 2020 Anatole Denis <natolumin@rezel.net> - 2.0.29-1
 - Version bump
 
